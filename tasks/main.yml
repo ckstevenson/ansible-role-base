@@ -1,0 +1,35 @@
+---
+# tasks file for base
+
+- name: Add user
+  ansible.builtin.user:
+    name: '{{ user }}'
+    shell: '/bin/bash'
+    groups: 'sudo, adm'
+    append: yes
+
+- name: Set authorized key 
+  ansible.posix.authorized_key:
+    user: '{{ user }}'
+    state: present
+    key: "{{ lookup('file', '/home/{{ user }}/.ssh/id_rsa.pub') }}"
+
+- name: Disable password for sudo users
+  ansible.builtin.replace:
+    path: /etc/sudoers
+    regexp: '^(%sudo).*'
+    replace: '\1 ALL=(ALL:ALL) NOPASSWD:ALL'
+
+- name: Disable root login and password authentication
+  ansible.builtin.replace:
+    path: /etc/ssh/sshd_config
+    regexp: '^({{ item }}).*'
+    replace: '\1 no'
+  loop:
+    - 'PermitRootLogin'
+    - 'PasswordAuthentication'
+  notify: Restart sshd
+
+- name: Set the hostname
+  ansible.builtin.hostname:
+    name: '{{ hostname }}'

@@ -1,0 +1,4 @@
+skip_list:
+  - fqcn-builtins  # Use FQCN for builtin actions.
+  - no-jinja-nesting  # Nested jinja pattern.
+  - no-changed-when  # Commands should not change things if nothing needs doing.

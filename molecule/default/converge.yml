@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    hostname: 'hostname'
+    user: 'cameron'
+  tasks:
+    - name: "Include ckstevenson.base"
+      include_role:
+        name: "ckstevenson.base"

@@ -1,0 +1,25 @@
+---
+# This includes some basic tests, but it could have more coverage
+
+- name: Verify
+  hosts: all
+  become: true
+  vars:
+    hostname: 'hostname'
+    user: 'cameron'
+  tasks:
+  - name: Register output of id command
+    ansible.builtin.command: /usr/bin/id '{{ user }}' 
+    register: id_output
+
+      #  - name: debug
+      #    ansible.builtin.debug:
+      #      var: id_output
+
+  - name: Verify user in /etc/passwd
+    ansible.builtin.assert:
+      that:  ! id_output.failed
+
+  - name: Verify hostname
+    ansible.builtin.assert:
+      that: ansible_facts.hostname == '{{ hostname }}'

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ckstevenson.base"
+version = "0.1.0"
+description = "Base Ansible role for my homelab and other systems"
+authors = ["Cameron Stevenson <cksteve@protonmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ansible-core = "^2.12.4"
+molecule-vagrant = "^1.0.0"
+
+[tool.poetry.dev-dependencies]
+molecule = "^3.6.0"
+ansible-lint = "^6.0.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
